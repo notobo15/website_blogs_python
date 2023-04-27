@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block content %}
+<p>are you sure delete this? {{article}}</p>
+<a href="{{request.META.HTTP_REFERER}}">Back</a>
+<form action="{% url 'delete-article' article.id %}" method="POST">
+  <h3>{% csrf_token %}</h3>
+
+  <input type="submit" value="Confirm" />
+</form>
+{% endblock %}

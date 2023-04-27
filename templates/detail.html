@@ -1,5 +1,8 @@
+
 {% extends 'base.html' %} {% block content %}
+<a href='{% url 'update-article' article.id %}'>Edit</a>
+<a href='{% url 'delete-article' article.id %}'>Delete</a>
 <h1>{{article.title}}</h1>
 <h3>{{article.desc}}</h3>
-<p>{{article.content }}</p>
+<p>{{article.content | safe }}</p>
 {% endblock %}

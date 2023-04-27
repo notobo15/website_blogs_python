@@ -2,16 +2,20 @@ from django.urls import path
 from . import views
 
 
-
-
-urlpatterns = [ 
+urlpatterns = [
     path('', views.homepage, name='homepage'),
-    path('create-article/', views.createArticle, name='create-article'),
+    path("login/", views.loginUser, name="login"),
+    path("logout/", views.logoutUser, name="logout"),
+    path("register/", views.registerUser, name="register"),
 
-    
+    path('create-article/', views.createArticle, name='create-article'),
+    path('update-article/<str:id>/', views.updateArticle, name='update-article'),
+    path('delete-article/<str:id>/', views.deleteArticle, name='delete-article'),
+
+
     path('<str:pk>/', views.category, name='category'),
 
-    path('<str:pk>/<str:detail>/', views.detail, name='detail'),
+    path('<str:pk>/<slug:detail>/', views.detail, name='detail'),
 
 
 ]

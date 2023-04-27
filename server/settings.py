@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     'base.apps.BaseConfig',
     'ckeditor',
-    'autopep8'
+    'autopep8',
+    'tinymce'
 ]
 
 MIDDLEWARE = [
@@ -83,15 +84,15 @@ DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.mysql',  
-        'NAME': 'notobo_blogs',  
-        'USER': 'notobo_blogs',  
-        'PASSWORD': 'notobo_blogs',     
-        'HOST': '103.101.163.106',  
-        'PORT': '3306',  
-        'OPTIONS': {  
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'notobo_blogs',
+        'USER': 'notobo_blogs',
+        'PASSWORD': 'notobo_blogs',
+        'HOST': '103.101.163.106',
+        'PORT': '3306',
+        'OPTIONS': {
             'init_command': 'SET storage_engine=INNODB,character_set_connection=utf8,collation_connection=utf8_unicode_ci;'
-        }   
+        }
     }
 }
 
@@ -131,8 +132,53 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# CKEDITOR_UPLOAD_PATH = "uploads/"
+# CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+# CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
+# CKEDITOR_BASEPATH = "/my_static/ckeditor/ckeditor/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+    },
+}
+
+
+TINYMCE_JS_URL = 'http://debug.example.org/tiny_mce/tiny_mce_src.js'
+TINYMCE_DEFAULT_CONFIG = {
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
+    'theme': 'silver',
+    'plugins': '''
+            textcolor save link image media preview codesample contextmenu
+            table code lists fullscreen  insertdatetime  nonbreaking
+            contextmenu directionality searchreplace wordcount visualblocks
+            visualchars code fullscreen autolink lists  charmap print  hr
+            anchor pagebreak
+            ''',
+    'toolbar1': '''
+            fullscreen preview bold italic underline | fontselect,
+            fontsizeselect  | forecolor backcolor | alignleft alignright |
+            aligncenter alignjustify | indent outdent | bullist numlist table |
+            | link image media | codesample |
+            ''',
+    'toolbar2': '''
+            visualblocks visualchars |
+            charmap hr pagebreak nonbreaking anchor |  code |
+            ''',
+    'contextmenu': 'formats | link image',
+    'menubar': True,
+    'statusbar': True,
+}
+TINYMCE_SPELLCHECKER = True
+TINYMCE_COMPRESSOR = True
