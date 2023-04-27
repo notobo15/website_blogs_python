@@ -114,10 +114,10 @@ def logoutUser(request):
 
 
 def registerUser(request):
+    context = {}
     form = UserCreationForm()
     context['form'] = form
 
-    context = {}
     if form.is_valid():
         user = form.save()
         user.save()
