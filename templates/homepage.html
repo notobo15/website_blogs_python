@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Blogs Lap Trinh</h1>
+<a href="{% url 'create-article' %}">Create Article</a>
+<ul>
+  {%for item in category %}
+  <li>
+    <a style="font-size: 30px" href="{% url 'category' item.slug  %}"
+      >{{item.id}} --- {{item.name}}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

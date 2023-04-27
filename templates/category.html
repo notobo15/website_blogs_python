@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block content %}
+<h1>{{category.name}}</h1>
+<h2>các bài viêt về {{category.name}}</h2>
+<div>
+  <ul>
+    {% for item in article %}
+
+    <li style="border: 1px solid #ccc">
+      <a href="{{item.slug}}">{{item.title}}</a>
+      <p>{{item.desc}}</p>
+    </li>
+
+    {% endfor%}
+  </ul>
+</div>
+{% endblock %}
