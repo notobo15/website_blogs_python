@@ -20,8 +20,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
 urlpatterns = [
-    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('admin/', admin.site.urls),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('', include('base.urls')),
     # path('tinymce/', include('tinymce.urls')),
 ]
