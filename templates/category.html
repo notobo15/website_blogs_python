@@ -1,16 +1,30 @@
 {% extends 'base.html' %} {% block content %}
-<h1>{{category.name}}</h1>
-<h2>các bài viêt về {{category.name}}</h2>
-<div>
-  <ul>
-    {% for item in article %}
-
-    <li style="border: 1px solid #ccc">
-      <a href="{{item.slug}}">{{item.title}}</a>
-      <p>{{item.desc}}</p>
-    </li>
-
-    {% endfor%}
-  </ul>
+<div class="container">
+  <h1>{{category.name}}</h1>
+  <div class="row">
+    <div class="col-8">
+        {% for item in article %}
+        <div class="card">
+          <h5 class="card-header">{{category.name}}</h5>
+          <div class="card-body">
+            <h5 class="card-title"><a href="{{item.slug}}">{{item.title}}</a></h5>
+            <p class="card-text">{{item.desc}}</p>
+            <a href="{{item.slug}}" class="btn btn-primary">Đọc tiếp</a>
+          </div>
+        </div>
+        {% endfor%}
+    </div>
+    <div class="card bg-light mb-4" style="max-width: 18rem;">
+      <div class="card-header">Header</div>
+      <div class="card-body">
+        <h5 class="card-title">Light card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+    </div>
+  </div>
+  
 </div>
+
 {% endblock %}
+
+
