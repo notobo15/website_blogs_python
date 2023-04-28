@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 from django.template.defaultfilters import slugify
 from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 # from django.utils.text import slugify
 # from tinymce.models import HTMLField
 
@@ -25,7 +26,8 @@ class Category(models.Model):
 class Article(models.Model):
     title = models.TextField()
     desc = models.TextField()
-    content = RichTextField()
+    content = RichTextUploadingField(blank=True, null=True)
+    # content = RichTextField()
     titleToSlug = slugify(u'{title}')
     slug = models.TextField(null=True, blank=True)
     img = models.CharField(max_length=200)

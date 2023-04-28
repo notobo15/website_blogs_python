@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
 
     'base.apps.BaseConfig',
     'ckeditor',
+    'ckeditor_uploader',
     'autopep8',
     'tinymce'
 ]
@@ -132,9 +134,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static'
+# ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -146,39 +149,79 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
 # CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
 # CKEDITOR_BASEPATH = "/my_static/ckeditor/ckeditor/"
+# CKEDITOR_CONFIGS = {
+#     'default': {
+#         'toolbar': 'full',
+#     },
+# }
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+# CKEDITOR_CONFIGS = {
+#     'default': {
+#         'extraPlugins': 'codesnippet',
+#         'toolbar': 'full',
+#     },
+# }
 CKEDITOR_CONFIGS = {
     'default': {
+        # 'skin': 'bootstrapck',
+        'skin': 'moono',
         'toolbar': 'full',
-    },
+        # 'toolbar_MyCustomToolbar': [
+        #     {'name': 'basic', 'items': [
+        #         'Source',
+        #         '-',
+        #         'Bold',
+        #         'Italic',
+        #         'CodeSnippet'  # add the codesnippet button name
+        #     ]}
+        # ],
+
+        'codeSnippet_theme': 'monokai',
+        # uncomment to restrict only those languages
+        # 'codeSnippet_languages': {
+        #     'python': 'Python',
+        # },
+        # 'toolbar': 'MyCustomToolbar',
+        'extraPlugins': ','.join(
+            [
+                # add the follow plugins
+                'codesnippet',
+                # 'widget',
+                # 'dialog',
+            ]),
+    }
 }
 
 
-TINYMCE_JS_URL = 'http://debug.example.org/tiny_mce/tiny_mce_src.js'
-TINYMCE_DEFAULT_CONFIG = {
-    'cleanup_on_startup': True,
-    'custom_undo_redo_levels': 20,
-    'selector': 'textarea',
-    'theme': 'silver',
-    'plugins': '''
-            textcolor save link image media preview codesample contextmenu
-            table code lists fullscreen  insertdatetime  nonbreaking
-            contextmenu directionality searchreplace wordcount visualblocks
-            visualchars code fullscreen autolink lists  charmap print  hr
-            anchor pagebreak
-            ''',
-    'toolbar1': '''
-            fullscreen preview bold italic underline | fontselect,
-            fontsizeselect  | forecolor backcolor | alignleft alignright |
-            aligncenter alignjustify | indent outdent | bullist numlist table |
-            | link image media | codesample |
-            ''',
-    'toolbar2': '''
-            visualblocks visualchars |
-            charmap hr pagebreak nonbreaking anchor |  code |
-            ''',
-    'contextmenu': 'formats | link image',
-    'menubar': True,
-    'statusbar': True,
-}
-TINYMCE_SPELLCHECKER = True
-TINYMCE_COMPRESSOR = True
+# TINYMCE_JS_URL = 'http://debug.example.org/tiny_mce/tiny_mce_src.js'
+# TINYMCE_DEFAULT_CONFIG = {
+#     'cleanup_on_startup': True,
+#     'custom_undo_redo_levels': 20,
+#     'selector': 'textarea',
+#     'theme': 'silver',
+#     'plugins': '''
+#             textcolor save link image media preview codesample contextmenu
+#             table code lists fullscreen  insertdatetime  nonbreaking
+#             contextmenu directionality searchreplace wordcount visualblocks
+#             visualchars code fullscreen autolink lists  charmap print  hr
+#             anchor pagebreak
+#             ''',
+#     'toolbar1': '''
+#             fullscreen preview bold italic underline | fontselect,
+#             fontsizeselect  | forecolor backcolor | alignleft alignright |
+#             aligncenter alignjustify | indent outdent | bullist numlist table |
+#             | link image media | codesample |
+#             ''',
+#     'toolbar2': '''
+#             visualblocks visualchars |
+#             charmap hr pagebreak nonbreaking anchor |  code |
+#             ''',
+#     'contextmenu': 'formats | link image',
+#     'menubar': True,
+#     'statusbar': True,
+# }
+# TINYMCE_SPELLCHECKER = True
+# TINYMCE_COMPRESSOR = True
