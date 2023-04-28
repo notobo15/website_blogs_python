@@ -1,13 +1,46 @@
-{% extends 'base.html' %} {% block content %}
-<h1>Blogs Lap Trinh</h1>
-<a href="{% url 'create-article' %}">Create Article</a>
-<ul>
-  {%for item in category %}
-  <li>
-    <a style="font-size: 30px" href="{% url 'category' item.slug  %}"
-      >{{item.id}} --- {{item.name}}
-    </a>
-  </li>
-  {% endfor %}
-</ul>
+{% extends 'base.html' %} 
+{% block content %}
+<div class="container">
+  <h1>Blog Lập Trình</h1>
+  <a class="badge badge-primary" href="{% url 'create-article' %}">Create Article</a>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-8">
+      <ul class="list-group">
+        {%for item in category %}
+        <li class="list-group-item">
+          <h5>
+            <a href="{% url 'category' item.slug  %}">
+              {{item.name}}
+            </a>
+          </h5>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-4">
+      <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+          <h5 class="card-title">Primary card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem;">
+        <div class="card-header">
+          Featured
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Cras justo odio</li>
+          <li class="list-group-item">Dapibus ac facilisis in</li>
+          <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
 {% endblock %}
+
+

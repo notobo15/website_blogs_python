@@ -1,8 +1,12 @@
 
-{% extends 'base.html' %} {% block content %}
-<a href='{% url 'update-article' article.id %}'>Edit</a>
-<a href='{% url 'delete-article' article.id %}'>Delete</a>
-<h1>{{article.title}}</h1>
-<h3>{{article.desc}}</h3>
-<p>{{article.content | safe }}</p>
+{% extends 'base.html' %} 
+{% block content %}
+<div class="container">
+  <a class="" href='{% url 'update-article' article.id %}'>Edit</a>
+  <a class="" href='{% url 'delete-article' article.id %}'>Delete</a>
+  <h1>{{article.title}}</h1>
+  <h5>{{article.desc}}</h5>
+  <p>{{article.content | safe }}</p>
+</div>
+
 {% endblock %}
