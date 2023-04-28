@@ -1,10 +1,8 @@
 ## cong viec can lam
-1. nhap du nhieu vao 20 30 bai 
-2. login
-3. register
-4. trang chu
-5. chi tiet 
-6. phan loai
+1. nhap du nhieu vao 20 30 bai
+2. trang chu
+3. chi tiet
+4. trang chu de
    
 ##### Step 1:
 ```python
@@ -26,3 +24,5 @@ pip install -r requirements.txt
 ```python
 python manage.py runserver
 ```
+
+list user admin:
