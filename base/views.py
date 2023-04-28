@@ -116,13 +116,14 @@ def logoutUser(request):
 def registerUser(request):
     context = {}
     form = UserCreationForm()
-    context['form'] = form
-
-    if form.is_valid():
-        user = form.save()
-        user.save()
-        login(request, user)
-        return redirect("homepage")
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        context['form'] = form
+        if form.is_valid():
+            user = form.save()
+            user.save()
+            login(request, user)
+            return redirect("homepage")
     else:
         messages.error(request, 'Error during register')
     return render(request, 'register.html', context)
