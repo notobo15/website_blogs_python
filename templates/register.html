@@ -1,8 +1,110 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% block content %} {% comment %}
 <div>
   <form method="POST" action="">
     {% csrf_token %} {{form.as_p}}
     <input type="submit" value="Register" />
   </form>
 </div>
+{% endcomment %}
+<div class="container mt-5 d-flex justify-content-center align-items-center">
+  <div class="forms">
+    <!-- Registration Form -->
+    <div class="form signup">
+      <h3 class="title">ĐĂNG KÝ</h3>
+      <form action="" method="post" id="form-signup">
+        {% csrf_token %}
+        <div class="flex-box" style="gap: 20px">
+          <div class="input-field" style="width: 60%">
+            <input
+              id="first_name"
+              type="text"
+              placeholder="Tên"
+              required
+              name="first_name"
+              value="{{ form.first_name.value |default_if_none:'' }}"
+            />
+            <i class="uil uil-user-square"></i>
+          </div>
+          <div class="input-field">
+            <input
+              id="last_name"
+              type="text"
+              placeholder="Họ và Tên Lót"
+              name="last_name"
+              required
+              value="{{form.last_name.value |default_if_none:'' }}"
+            />
+            <i class="uil uil-user-square"></i>
+          </div>
+        </div>
+        <div class="input-field">
+          <input
+            id="username_rg"
+            type="text"
+            placeholder="Tên Tài Khoản"
+            name="username"
+            required
+            value="{{form.username.value |default_if_none:'' }}"
+          />
+          <i class="uil uil-user"></i>
+        </div>
+        <div class="input-field">
+          <input
+            id="email"
+            type="email"
+            placeholder="Email"
+            required
+            name="email"
+            value="{{ form.email.value |default_if_none:'' }}"
+          />
+          <i class="uil uil-phone icon"></i>
+        </div>
+        <div class="input-field">
+          <input
+            id="password_rg"
+            type="password"
+            class="password"
+            placeholder="Nhập Mật Khẩu"
+            name="password1"
+            required
+          />
+          <i class="uil uil-lock icon"></i>
+          <i class="uil uil-eye-slash showHidePw"></i>
+        </div>
+        <div class="input-field">
+          <input
+            id="password_rg_confirm"
+            type="password"
+            class="password"
+            name="password2"
+            placeholder="Nhập Lại Mật Khẩu"
+            required
+          />
+          <i class="uil uil-lock icon"></i>
+          <i class="uil uil-eye-slash showHidePw"></i>
+        </div>
+        <div class="input-field button">
+          <input type="submit" value="Đăng Ký" />
+        </div>
+      </form>
+
+      <div class="login-signup">
+        <span class="text"
+          >Already a member?
+          <a href="#" class="text login-link">Login Now</a>
+        </span>
+      </div>
+      {% if messages %}
+      <div id="err_login" class="error">
+        {% for message in messages %}
+        <h6 {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+          {{ message }}
+        </h6>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 {% endblock %}

@@ -1,4 +1,9 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block header %}{% include 'header.html' %} {% endblock %}
+
+
+{% block content %}
+
 <div class="container">
   <h1>{{category.name}}</h1>
   <div class="row">

@@ -1,4 +1,7 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block header %}{% include 'header.html' %} {% endblock %}
+
+{% block content %}
 <div>
   <form method="POST" action="" entype="multipart/form-data">
     {% csrf_token %} {{form.media}}{{form.as_p}}

@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+import re
 
 
 def homepage(request):
@@ -89,8 +90,7 @@ def loginUser(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username)
-        print(password)
+
         try:
             user = models.User.objects.get(username=username)
             if user:
@@ -105,6 +105,7 @@ def loginUser(request):
                 messages.error(request, "user is blocked")
 
         except models.User.DoesNotExist:
+            print("khong ton tai")
             messages.error(request, 'user does not exist')
     return render(request, 'login.html', context)
 
@@ -118,15 +119,53 @@ def registerUser(request):
     context = {}
     form = CreateUserForm()
     context['form'] = form
-
+    
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
-        context['form'] = form
         if form.is_valid():
-            user = form.save()
-            user.save()
-            login(request, user)
-            return redirect("homepage")
+            print("valid")
+            form.save()
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        isUserNameExsit = False
+        isEmailExsit = False
+        isPasswordMatched = False
+        isPassword = False
+        if len(password1.strip()) <= 8 or len(password2.strip()) <= 8:
+            messages.error(request, 'Mật Khẩu Chứa Ít Nhất 8 Kí Tự')
+        else:
+            if password2 != password1:
+                messages.error(request, 'Xác Nhận Mật Khẩu Không Trùng Khớp.')
+            else:
+                isPassword = True
+        try:
+            email = models.User.objects.get(email=email)
+            messages.error(request, 'Email Này Đã Tồn Tại')
+        except models.User.DoesNotExist:
+            isEmailExsit = True
+        try:
+            user = models.User.objects.get(username=username)
+            messages.error(request, 'Tên Tài Khoản Này Đã Tồn Tại')
+        except models.User.DoesNotExist:
+            regex = r'^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$'
+            print(re.search(regex, username))
+            if re.search(regex, username):
+                isUserNameExsit = True
+            else:
+                messages.error(request, 'Tên Tài Khoản Chỉ Được Chứa Chữ, Số!')
+        # form = UserCreationForm(request.POST)
+        if isUserNameExsit and isEmailExsit and isPassword:
+            print("thanh cong") 
+            print(form.is_valid())
+            if form.is_valid():
+                print("valid")
+                form.save()
+                login(request, form)
+                return redirect("homepage")
+
     else:
-        messages.error(request, 'Error during register')
+        pass
+        # messages.error(request, 'Có lỗi trong quá trình đăng kí! Vui lòng thử lại sau.')
     return render(request, 'register.html', context)
