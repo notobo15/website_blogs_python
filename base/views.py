@@ -1,3 +1,4 @@
+from .forms import CreateUserForm
 from django.shortcuts import render, redirect
 from . import models
 from .forms import ArticleForm
@@ -115,9 +116,11 @@ def logoutUser(request):
 
 def registerUser(request):
     context = {}
-    form = UserCreationForm()
+    form = CreateUserForm()
+    context['form'] = form
+
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CreateUserForm(request.POST)
         context['form'] = form
         if form.is_valid():
             user = form.save()
