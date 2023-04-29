@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% block content %} {% comment %}
+{% extends 'base.html' %} {% block header %}{% include 'header.html' %} {% endblock %}{% block content %} 
+{% comment %}
 <div>
   <form method="POST" action="">
     {% csrf_token %} {{form.as_p}}
@@ -91,7 +92,7 @@
       <div class="login-signup">
         <span class="text"
           >Already a member?
-          <a href="#" class="text login-link">Login Now</a>
+          <a href="{% url 'login' %}" class="text login-link">Login Now</a>
         </span>
       </div>
       {% if messages %}
