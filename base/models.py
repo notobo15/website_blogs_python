@@ -1,3 +1,4 @@
+from unidecode import unidecode
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
@@ -46,12 +47,9 @@ class Article(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        str = unidecode(self.title)
+        self.slug = slugify(str)
         super(Article, self).save(*args, **kwargs)
-
-    def setDelete(self):
-        self.is_deleted = True
-        return self.is_deleted
 
 
 class Rating(models.Model):
