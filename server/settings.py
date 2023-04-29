@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'autopep8',
-    'tinymce',
-    'fontawesomefree'
+    'tinymce'
 ]
 
 MIDDLEWARE = [
