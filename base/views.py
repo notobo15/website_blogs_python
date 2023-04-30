@@ -15,6 +15,9 @@ def homepage(request):
     context['category'] = category
     return render(request, 'homepage.html', context)
 
+def contact(request):
+    return render(request, 'contact.html')
+
 
 def category(request, pk):
     category = None
