@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 {% block header %}{% include 'header.html' %} {% endblock %}
-
+{% load mptt_tags %}
 {% block content %}
+<<<<<<< Updated upstream
 
 <br>
 
+=======
+<style>
+  .django-ckeditor-widget {
+    display: block !important ;
+  }
+  #cke_id_content {
+    width: 100% !important;
+  }
+  #cke_1_contents {
+    height: 130px !important;
+  }
+</style>
+>>>>>>> Stashed changes
 <div class="container">
   <ul class="list-inline">
     <li class="list-inline-item"><a class="btn btn-primary" href="{% url 'update-article' article.id %}">Edit</a></li>
@@ -14,5 +28,115 @@
   <h5>{{article.desc}}</h5>
   <p>{{article.content | safe }}</p>
 </div>
+<div class="container">
+  <h4>{{ allcomments.count }} comments</h4>
 
+<<<<<<< Updated upstream
+=======
+  <form id="myForm" method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    {{ comment_form.media }}
+    <div class="text-right">
+
+      <button type="submit" class="btn btn-primary">Bình Luận</button>
+    </div>
+
+  </form>
+  {% recursetree comments %}
+  <div class="row border">
+    <div class="col-2 col-sm-2 col-md-2 col-lg-1 d-flex justify-content-center align-items-start">
+      <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" class="rounded-circle shadow-1-strong mt-4 ml-1" width="100%" alt="">
+    </div>
+    <div class="col-10 col-sm-10 col-md-10 col-lg-11" >
+      <div class="heading"><div class="d-flex justify-content-between align-items-center py-3"><span><strong>{{ user.username }}</strong></span><span>{{ node.publish }}</span></div></div>
+      <div >{{ node.content | safe  }}</div>
+  
+        <div id="{{ node.id }}" class="d-flex justify-content-between align-items-center">
+          <div class="fs-6">{{node.number_time}}</div>
+          <div class="fs-6"><span class="btn" onclick="showReplyForm({{node.id}})">Trả Lời</span></div>
+
+        </div>
+    </div>
+  </div>
+
+  {% if not node.is_leaf_node %}
+  <div class="children pl-5">
+    {{children }}
+
+  </div>
+  {% endif %}
+  {% endrecursetree %}
+
+</div>
+<div class="py-4">
+  <nav aria-label="Page navigation example">
+    {% if comments.has_other_pages %}
+    <ul class="pagination">
+      {% if comments.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ comments.previous_page_number }}">Previous</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+      {% endif %}
+      {% for num in comments.paginator.page_range %}
+      {% if comments.number == l %}
+      <li class="page-item active"><span class="page-link">{{ num }} <span class="sr-only">(current)</span></span>
+      </li>
+      {% else %}
+      <li class="page-item"><a class="page-link"  href="?page={{ num }}">{{ num }}</a></li>
+      {% endif %}
+      {% endfor %}
+      {% if comments.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ comments.next_page_number }}">Next</a></li>
+      {% else %}
+      <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+      {% endif %}
+    </ul>
+    {% endif %}
+  </nav>
+</div>
+
+
+
+<script>
+  function formExit() {
+    document.getElementById("newForm").remove();
+  }
+  function active(){
+    var urlParams = new URLSearchParams(window.location.search);
+    $(".page-item").each(function() {
+      if (urlParams.get('page') == $(this).text() ) {
+        $(this).addClass("active")
+      }
+    })
+  }
+  active()
+  function showReplyForm(id) {
+    if (document.contains(document.getElementById("newForm"))) {
+      document.getElementById("newForm").remove();
+    }
+    var d1 = document.getElementById(id);
+    d1.insertAdjacentHTML('afterend',
+  `<form id="newForm" class="form-insert py-2" method="post">
+    <div class="d-flex justify-content-between">
+    </div>
+    
+        <select name=" parent" class="d-none" id="id_parent">
+          <option value="${id}" selected="${id}"></option>
+        </select>
+      <textarea name="content" cols="40" rows="2" class="form-control" required id="id_content"></textarea>
+        {% csrf_token %}  
+      <div class="d-flex justify-content-end align-items-center my-1">
+        <button type="submit" class="btn-sm mr-3 btn-primary ">Submit</button>
+        <button type="button" class="btn-sm btn-outline-secondary" onclick="formExit()"">Hủy</button>
+    
+      </div>
+      
+  </form>`);
+    $('#myForm').trigger("reset");
+  }
+</script>
+
+>>>>>>> Stashed changes
 {% endblock %}

@@ -7,8 +7,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 import re
+from .forms import CreateCommentForm
+from django.views.generic import ListView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
+from datetime import datetime, time
 
-
+from datetime import datetime, timedelta
 def homepage(request):
     context = {}
     category = models.Category.objects.all()
@@ -37,12 +42,97 @@ def category(request, pk):
     return render(request, 'category.html', context)
 
 
-def detail(request, pk, detail):
+def detail(request,pk,  detail):
     context = {}
+    
+
     if models.Article.objects.filter(slug=detail).exists():
+    
         article = models.Article.objects.get(slug=detail)
+        allcomments = models.Comment.objects.filter(article=article.id)
+        context['allcomments'] = allcomments
         context['article'] = article
-    # category = models.Category.objects.get(slug=pk)
+        context['user'] = request.user
+        """ 
+        number_page = 20
+        print(allcomments[number_page -1].parent)
+
+        while allcomments[number_page - 1].parent != None:
+            number_page +=1 
+          
+         """
+        page = request.GET.get('page', 1)
+        context['page'] = page
+        paginator = Paginator(allcomments, 10)
+        try:
+            comments = paginator.page(page)
+        except PageNotAnInteger:
+            comments = paginator.page(1)
+        except EmptyPage:
+            comments = paginator.page(paginator.num_pages)
+        context['comments'] = comments
+    if request.method == 'POST':
+        if request.user.is_anonymous:
+            return redirect("login")
+
+
+        comment_form = CreateCommentForm(request.POST) 
+        if comment_form.is_valid():
+            user_comment = comment_form.save(commit = False)
+            user_comment.article = article
+            user_comment.user = request.user
+            user_comment.save()
+
+            allcomments = models.Comment.objects.filter(article=article.id)
+
+            paginator = Paginator(allcomments, 4)
+            try:
+                comments = paginator.page(page)
+            except PageNotAnInteger:
+                comments = paginator.page(1)
+            except EmptyPage:
+                comments = paginator.page(paginator.num_pages)
+            context['comments'] = comments
+
+            context['comment_form'] = CreateCommentForm()
+            return render(request, 'detail.html', context)
+    else:
+        comment_form = CreateCommentForm()
+    if (comments):
+        for com in comments:
+            current_time = datetime.now()
+            print(current_time)
+            year = com.publish.year
+            month = com.publish.month
+            day = com.publish.day
+            hour = com.publish.hour
+            minute = com.publish.minute
+            second = com.publish.second
+            past_time = datetime(year, month, day, hour, minute, second)
+            print("past time : ", past_time)
+            time_diff = current_time - past_time
+            days = time_diff.days
+            hours, remainder = divmod(time_diff.seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            days = int(days)
+            hours = int(hours)
+            minutes = int(minutes)
+            print("Số ngày: ", days)
+            print("Số giờ: ", hours)
+            print("Số phút: ", minutes)
+            if hours == 0 and days == 0:
+                str = f'{minutes} phút trước'
+            elif days == 0:
+                str = f'{hours} giờ {minutes} phút trước'
+            
+            else:
+                str = f'{days} ngày {hours} giờ {minutes} phút trước'
+
+            com.number_time = str
+
+
+
+    context['comment_form'] = comment_form
     return render(request, 'detail.html', context)
 
 
@@ -122,12 +212,8 @@ def registerUser(request):
     context = {}
     form = CreateUserForm()
     context['form'] = form
-    
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
-        if form.is_valid():
-            print("valid")
-            form.save()
         email = request.POST.get('email')
         username = request.POST.get('username')
         password1 = request.POST.get('password1')
@@ -164,8 +250,9 @@ def registerUser(request):
             print(form.is_valid())
             if form.is_valid():
                 print("valid")
-                form.save()
-                login(request, form)
+                user = form.save(commit=False)
+                user.save()
+                login(request, user)
                 return redirect("homepage")
 
     else:

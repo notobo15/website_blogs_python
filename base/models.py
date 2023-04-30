@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from unidecode import unidecode
 from django.db import models
 from django.contrib.auth.models import User
@@ -7,6 +8,7 @@ from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 # from django.utils.text import slugify
 # from tinymce.models import HTMLField
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 class Category(models.Model):
@@ -65,22 +67,23 @@ class Rating(models.Model):
         return self.user.username + " : " + str(self.numStar) + "* : " + self.article.title
 
 
-class Comment(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.SET_NULL, null=True)
+class Comment(MPTTModel):
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE, null=True, related_name='comments')
+    parent = TreeForeignKey('self', on_delete=models.CASCADE,
+                            null=True, blank=True, related_name="children")
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    content = RichTextField(null=True)
+    content = RichTextUploadingField(
+        null=True, blank=True, config_name='commment')
+
+    publish = models.DateTimeField(default=datetime.now())
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=0)
 
+    class MPTTMeta:
+        order_insertion_by = ['created']
 
-class Reply(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name='user_reply')
-    comment = models.ForeignKey(
-        Comment, on_delete=models.SET_NULL, null=True, related_name='reply_to_user')
-    content = RichTextField()
-    # userReplyTo = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    is_deleted = models.BooleanField(default=0)
+    def __str__(self):
+        return f'{self.content}'

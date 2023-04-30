@@ -1,12 +1,16 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from .models import Article
+from .models import Article, Comment
 from tinymce.widgets import TinyMCE
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms.fields import EmailField
 from django.forms.forms import Form
+
+
+from django import forms
+from mptt.forms import TreeNodeChoiceField
 # class TinyMCEWidget(TinyMCE):
 #     def use_required_attribute(self, *args):
 #         return False
@@ -63,3 +67,25 @@ class CreateUserForm(UserCreationForm):
     #         self.cleaned_data['password1']
     #     )
     #     return user
+
+
+class CreateCommentForm(forms.ModelForm):
+    parent = TreeNodeChoiceField(queryset=Comment.objects.all())
+
+    class Meta:
+        model = Comment
+        fields = ['content', 'parent']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'col-sm-12'}),
+            'email': forms.TextInput(attrs={'class': 'col-sm-12'}),
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['parent'].widget.attrs.update(
+            {'class': 'd-none'})
+        self.fields['content'].label = ''
+        self.fields['parent'].label = ''
+        self.fields['parent'].required = False
