@@ -1,17 +1,17 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block header %}{% include 'header.html' %} {% endblock %}
 
 {% block content %}
 <div class="container">
+  <br>
   <h1>Blog Lập Trình</h1>
-  <a class="badge badge-primary" href="{% url 'create-article' %}"
-    >Create Article</a
-  >
+  <a class="badge badge-primary" href="{% url 'create-article' %}">Create Article</a>
   <br />
   <br />
+
   <div class="row">
-    <div class="col-8">
+    <div class="col-sm-8">
       <ul class="list-group">
         {%for item in category %}
         <li class="list-group-item">
@@ -22,7 +22,7 @@
         {% endfor %}
       </ul>
     </div>
-    <div class="col-4">
+    <div class="col-sm-4">
       <div class="card text-white bg-primary mb-3" style="max-width: 18rem">
         <div class="card-header">Header</div>
         <div class="card-body">
@@ -33,14 +33,7 @@
           </p>
         </div>
       </div>
-      <div class="card" style="width: 18rem">
-        <div class="card-header">Featured</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Cras justo odio</li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Vestibulum at eros</li>
-        </ul>
-      </div>
+      
     </div>
   </div>
 </div>

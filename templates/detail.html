@@ -1,11 +1,15 @@
-
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% block header %}{% include 'header.html' %} {% endblock %}
 
 {% block content %}
+
+<br>
+
 <div class="container">
-  <a class="" href='{% url 'update-article' article.id %}'>Edit</a>
-  <a class="" href='{% url 'delete-article' article.id %}'>Delete</a>
+  <ul class="list-inline">
+    <li class="list-inline-item"><a class="btn btn-primary" href="{% url 'update-article' article.id %}">Edit</a></li>
+    <li class="list-inline-item"><a class="btn btn-primary" href="{% url 'delete-article' article.id %}">Delete</a></li>
+  </ul>
   <h1>{{article.title}}</h1>
   <h5>{{article.desc}}</h5>
   <p>{{article.content | safe }}</p>
