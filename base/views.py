@@ -22,8 +22,9 @@ def contact(request):
 def category(request, pk):
     category = None
     other_categories = models.Category.objects.all()
+    posts = models.Article.objects.all()
     article = None
-    context = {"other_categories" : other_categories}
+    context = {"other_categories" : other_categories, "posts" : posts}
     if models.Category.objects.filter(slug=pk).exists():
         category = models.Category.objects.get(slug=pk)
     id = 0
