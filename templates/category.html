@@ -20,11 +20,11 @@
     <div class="col-8">
         {% for item in article %}
         <div style="box-shadow: 1px 4px 14px -1px rgba(122,122,122,0.75);">
-          <div class="content row" style="gap: 1rem;">
-            <div class="card_thumbnail col-4 mx-auto">
-              <img class="" src="{{item.img}}" alt="" width="100%" height="200" >
+          <div class="content row p-3">
+            <div class="card_thumbnail col-4" style="height: 150px; width: 200px;">
+              <img style="object-fit: cover;" class="" src="{{item.img}}" alt="" width="100%" height="100%" >
             </div>
-            <div class="card_info col-6 p-3 mx-auto">
+            <div class="card_info col-6 mx-auto">
               <a class="font-weight-bold" href="{{item.slug}}" class="tittle">{{item.title}}</a>
               <p class="description">{{item.desc}}</p>
             </div>
