@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
-{% block header %}{% include 'header.html' %} {% endblock %}
-
 
 {% block content %}
 
 <div class="container">
-  <br>
-  <br>
-  <h1>{{category.name}}</h1>
-  <br>
+  <div class="jumbotron mt-5">
+    <h1>{{category.name}}</h1>
+
+  </div>
+  <ul class="list-inline mt-5">
+    {%for category in other_categories %}
+      <li class="list-inline-item">
+        <h5>
+          <a class="social-icon text-xs-center badge badge-primary" href="{% url 'category' category.slug  %}">{{category.name}}</a>
+        </h5>
+      </li>
+    {% endfor %}
+  </ul>
   
   <div class="row">
     <div class="col-8">
@@ -17,6 +24,7 @@
           <h5 class="card-header">{{category.name}}</h5>
           <div class="card-body">
             <h5 class="card-title"><a href="{{item.slug}}">{{item.title}}</a></h5>
+            <small> <strong>{{item.user}}</strong>&nbsp; - &nbsp; {{item.created}}  </small> 
             <p class="card-text">{{item.desc}}</p>
             <a href="{{item.slug}}" class="btn btn-primary">Đọc tiếp</a>
           </div>

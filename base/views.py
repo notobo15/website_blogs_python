@@ -18,8 +18,9 @@ def homepage(request):
 
 def category(request, pk):
     category = None
+    other_categories = models.Category.objects.all()
     article = None
-    context = {}
+    context = {"other_categories" : other_categories}
     if models.Category.objects.filter(slug=pk).exists():
         category = models.Category.objects.get(slug=pk)
     id = 0
