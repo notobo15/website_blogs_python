@@ -49,7 +49,37 @@ def detail(request,pk,  detail):
         allcomments = models.Comment.objects.filter(article=article.id)
         context['allcomments'] = allcomments
         context['article'] = article
-        context['user'] = request.user
+        # context['user'] = request.user
+
+        for com in allcomments:
+            current_time = datetime.now()
+            # print(current_time)
+            year = com.publish.year
+            month = com.publish.month
+            day = com.publish.day
+            hour = com.publish.hour
+            minute = com.publish.minute
+            second = com.publish.second
+            past_time = datetime(year, month, day, hour, minute, second)
+            # print("past time : ", past_time)
+            time_diff = current_time - past_time
+            days = time_diff.days
+            hours, remainder = divmod(time_diff.seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            days = int(days)
+            hours = int(hours)
+            minutes = int(minutes)
+            # print("Số ngày: ", days)
+            # print("Số giờ: ", hours)
+            # print("Số phút: ", minutes)
+            if hours == 0 and days == 0:
+                str = f'{minutes} phút trước'
+            elif days == 0:
+                str = f'{hours} giờ {minutes} phút trước'
+            else:
+                str = f'{days} ngày {hours} giờ {minutes} phút trước'
+            com.number_time = str
+            print(com.number_time)
         """ 
         number_page = 20
         print(allcomments[number_page -1].parent)
@@ -58,16 +88,16 @@ def detail(request,pk,  detail):
             number_page +=1 
           
          """
-        page = request.GET.get('page', 1)
-        context['page'] = page
-        paginator = Paginator(allcomments, 10)
-        try:
-            comments = paginator.page(page)
-        except PageNotAnInteger:
-            comments = paginator.page(1)
-        except EmptyPage:
-            comments = paginator.page(paginator.num_pages)
-        context['comments'] = comments
+        # page = request.GET.get('page', 1)
+        # context['page'] = page
+        # paginator = Paginator(allcomments, 10)
+        # try:
+        #     comments = paginator.page(page)
+        # except PageNotAnInteger:
+        #     comments = paginator.page(1)
+        # except EmptyPage:
+        #     comments = paginator.page(paginator.num_pages)
+        # context['comments'] = comments
     if request.method == 'POST':
         if request.user.is_anonymous:
             return redirect("login")
@@ -80,51 +110,22 @@ def detail(request,pk,  detail):
 
             allcomments = models.Comment.objects.filter(article=article.id)
 
-            paginator = Paginator(allcomments, 10)
-            try:
-                comments = paginator.page(page)
-            except PageNotAnInteger:
-                comments = paginator.page(1)
-            except EmptyPage:
-                comments = paginator.page(paginator.num_pages)
-            context['comments'] = comments
-
+            # paginator = Paginator(allcomments, 10)
+            # try:
+            #     comments = paginator.page(page)
+            # except PageNotAnInteger:
+            #     comments = paginator.page(1)
+            # except EmptyPage:
+            #     comments = paginator.page(paginator.num_pages)
+            # context['comments'] = comments
+            context['allcomments'] = allcomments
             context['comment_form'] = CreateCommentForm()
             return render(request, 'detail.html', context)
     else:
         comment_form = CreateCommentForm()
 
         
-    for com in allcomments:
-        current_time = datetime.now()
-        # print(current_time)
-        year = com.publish.year
-        month = com.publish.month
-        day = com.publish.day
-        hour = com.publish.hour
-        minute = com.publish.minute
-        second = com.publish.second
-        past_time = datetime(year, month, day, hour, minute, second)
-        # print("past time : ", past_time)
-        time_diff = current_time - past_time
-        days = time_diff.days
-        hours, remainder = divmod(time_diff.seconds, 3600)
-        minutes, seconds = divmod(remainder, 60)
-        days = int(days)
-        hours = int(hours)
-        minutes = int(minutes)
-        # print("Số ngày: ", days)
-        # print("Số giờ: ", hours)
-        # print("Số phút: ", minutes)
-        if hours == 0 and days == 0:
-            str = f'{minutes} phút trước'
-        elif days == 0:
-            str = f'{hours} giờ {minutes} phút trước'
-        
-        else:
-            str = f'{days} ngày {hours} giờ {minutes} phút trước'
-        com.number_time = str
-        print(com.number_time)
+    
     context['comment_form'] = comment_form
     return render(request, 'detail.html', context)
 

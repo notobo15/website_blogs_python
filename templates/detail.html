@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% block header %}{% include 'header.html' %}
+{% load static %} 
 {%endblock %} {% load mptt_tags %} {% block content %}
 <style>
   .django-ckeditor-widget {
@@ -46,7 +47,7 @@
         class="col-2 col-sm-2 col-md-2 col-lg-1 d-flex justify-content-center align-items-start"
       >
         <img
-          src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
+          src="{%  static 'avatar.png' %}"
           class="rounded-circle shadow-1-strong mt-4 ml-1"
           width="100%"
           alt=""
@@ -55,12 +56,12 @@
       <div class="col-10 col-sm-10 col-md-10 col-lg-11">
         <div class="heading">
           <div class="d-flex justify-content-between align-items-center py-3">
-            <span><strong>{{ user.username }}</strong></span
+            <span><strong>{{ node.user.username }}</strong></span
             ><span>{{ node.publish }}</span>
           </div>
         </div>
         <div>{{ node.content | safe }}</div>
-        
+
         <div
           id="{{ node.id }}"
           class="d-flex justify-content-between align-items-center"

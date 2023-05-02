@@ -1,3 +1,4 @@
+from datetime import datetime
 from unidecode import unidecode
 from django.db import models
 from django.contrib.auth.models import User
@@ -75,7 +76,7 @@ class Comment(MPTTModel):
     content = RichTextUploadingField(
         null=True, blank=True, config_name='commment')
 
-    publish = models.DateTimeField(auto_now_add=True)
+    publish = models.DateTimeField(default=datetime.now, blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
