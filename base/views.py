@@ -25,7 +25,7 @@ def contact(request):
 def category(request, pk):
     category = None
     other_categories = models.Category.objects.all()
-    posts = models.Article.objects.all()
+    posts = models.Article.objects.order_by('-created')[:7]
     article = None
     context = {"other_categories" : other_categories, "posts" : posts}
     if models.Category.objects.filter(slug=pk).exists():

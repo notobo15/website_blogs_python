@@ -17,9 +17,9 @@
   </ul>
   
   <div class="row" style="gap: 1rem;">
-    <div class="col-8">
+    <div class="col-8" style="height: fit-content">
         {% for item in article %}
-        <div class="post_container row p-3" style="box-shadow: 1px 4px 14px -1px rgba(122,122,122,0.75);">
+        <div class="post_container row p-3 h-100" style="box-shadow: 1px 4px 14px -1px rgba(122,122,122,0.75);">
           <div class="post_thumbnail col-6 col-md-4">
             <img width="100%" height="100%" src="{{item.img}}" alt="">
           </div>
@@ -33,7 +33,7 @@
         {% endfor%}
     </div>
     <div class="card bg-light mb-4" style="max-width: 18rem;" >
-      <div class="card-header">Bài viết HOT</div>
+      <div class="card-header">Bài viết mới nhất</div>
       {% for post in posts %}
       <div>
         <div class="content row p-2">
