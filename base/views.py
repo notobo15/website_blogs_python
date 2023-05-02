@@ -13,9 +13,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def homepage(request):
-    context = {}
     category = models.Category.objects.all()
-    context['category'] = category
+    posts = models.Article.objects.all()
+    context = {"category" : category, "posts" : posts}
     return render(request, 'homepage.html', context)
 
 def contact(request):
@@ -42,8 +42,8 @@ def category(request, pk):
     return render(request, 'category.html', context)
 
 
-def detail(request,pk,  detail):
-    context = {}
+def detail(request, pk,  detail):
+    posts = models.Article.objects.order_by('-created')[:7]
     if models.Article.objects.filter(slug=detail).exists():
         article = models.Article.objects.get(slug=detail)
         allcomments = models.Comment.objects.filter(article=article.id)
@@ -126,7 +126,7 @@ def detail(request,pk,  detail):
 
         
     
-    context['comment_form'] = comment_form
+    context['comment_form'] = comment_form 
     return render(request, 'detail.html', context)
 
 
