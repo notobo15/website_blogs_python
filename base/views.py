@@ -50,36 +50,9 @@ def detail(request, pk,  detail):
         context['allcomments'] = allcomments
         context['article'] = article
         # context['user'] = request.user
-
-        for com in allcomments:
-            current_time = datetime.now()
-            # print(current_time)
-            year = com.publish.year
-            month = com.publish.month
-            day = com.publish.day
-            hour = com.publish.hour
-            minute = com.publish.minute
-            second = com.publish.second
-            past_time = datetime(year, month, day, hour, minute, second)
-            # print("past time : ", past_time)
-            time_diff = current_time - past_time
-            days = time_diff.days
-            hours, remainder = divmod(time_diff.seconds, 3600)
-            minutes, seconds = divmod(remainder, 60)
-            days = int(days)
-            hours = int(hours)
-            minutes = int(minutes)
-            # print("Số ngày: ", days)
-            # print("Số giờ: ", hours)
-            # print("Số phút: ", minutes)
-            if hours == 0 and days == 0:
-                str = f'{minutes} phút trước'
-            elif days == 0:
-                str = f'{hours} giờ {minutes} phút trước'
-            else:
-                str = f'{days} ngày {hours} giờ {minutes} phút trước'
-            com.number_time = str
-            print(com.number_time)
+        print(allcomments)
+        context['comment_form'] = CreateCommentForm()
+        
         """ 
         number_page = 20
         print(allcomments[number_page -1].parent)
@@ -120,13 +93,39 @@ def detail(request, pk,  detail):
             # context['comments'] = comments
             context['allcomments'] = allcomments
             context['comment_form'] = CreateCommentForm()
-            return render(request, 'detail.html', context)
-    else:
-        comment_form = CreateCommentForm()
+            # return render(request, 'detail.html', context)
 
-        
+    for com in allcomments:
+        current_time = datetime.now()
+        # print(current_time)
+        year = com.publish.year
+        month = com.publish.month
+        day = com.publish.day
+        hour = com.publish.hour
+        minute = com.publish.minute
+        second = com.publish.second
+        past_time = datetime(year, month, day, hour, minute, second)
+        # print("past time : ", past_time)
+        time_diff = current_time - past_time
+        days = time_diff.days
+        hours, remainder = divmod(time_diff.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        days = int(days)
+        hours = int(hours)
+        minutes = int(minutes)
+        # print("Số ngày: ", days)
+        # print("Số giờ: ", hours)
+        # print("Số phút: ", minutes)
+        if hours == 0 and days == 0:
+            str = f'{minutes} phút trước'
+        elif days == 0:
+            str = f'{hours} giờ {minutes} phút trước'
+        else:
+            str = f'{days} ngày {hours} giờ {minutes} phút trước'
+        com.number_time = str
+        print(com.number_time)    
     
-    context['comment_form'] = comment_form 
+    context['comment_form'] = comment_form
     return render(request, 'detail.html', context)
 
 
@@ -256,3 +255,31 @@ def registerUser(request):
         pass
         # messages.error(request, 'Có lỗi trong quá trình đăng kí! Vui lòng thử lại sau.')
     return render(request, 'register.html', context)
+
+
+def like_article(request, pk, detail):
+    print(request)
+    user = request.user
+    if request.method == "POST":
+        article_id = request.POST.get("article_id")
+        article = models.Article.objects.get(id=article_id)
+        print(article_id)
+        print(article)
+        if user in article.liked.all():
+            print('da like')
+            article.liked.remove(user)
+        else:
+            article.liked.add(user)
+        like, created = models.Like.objects.get_or_create(user=user, article_id=article_id)
+        print(like.value)
+        print(created)
+
+        if not created:
+            if like.value == "Like":
+                like.value = 'Unlike'
+            else:
+                like.value = 'Like'
+        print(like.value)
+        like.save()
+        return redirect(f'../../../{pk}/{detail}')
+        # return redirect(f'homepage')

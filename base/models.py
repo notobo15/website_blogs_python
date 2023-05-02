@@ -42,6 +42,13 @@ class Article(models.Model):
     category_id = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True)
 
+    liked = models.ManyToManyField(
+        User, default=None, blank=True, related_name='liked')
+
+    # @property
+    def num_likes(self):
+        return self.liked.all().count()
+
     class Meta:
         ordering = ['-updated', '-created']
 
@@ -52,6 +59,22 @@ class Article(models.Model):
         str = unidecode(self.title)
         self.slug = slugify(str)
         super(Article, self).save(*args, **kwargs)
+
+
+LIKE_CHOICES = (
+    ('Like', 'Like'),
+    ('Unlike', 'Unlike'),
+)
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, )
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    value = models.CharField(choices=LIKE_CHOICES,
+                             default="Like", max_length=10)
+
+    def __str__(self):
+        return f'{self.user.username} : {self.value} : {self.article.title}'
 
 
 class Rating(models.Model):
