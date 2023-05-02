@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'autopep8',
-    'tinymce'
+    'tinymce',
+    'mptt'
+
 ]
 
 MIDDLEWARE = [
@@ -172,22 +174,7 @@ CKEDITOR_CONFIGS = {
         # 'skin': 'bootstrapck',
         'skin': 'moono',
         'toolbar': 'full',
-        # 'toolbar_MyCustomToolbar': [
-        #     {'name': 'basic', 'items': [
-        #         'Source',
-        #         '-',
-        #         'Bold',
-        #         'Italic',
-        #         'CodeSnippet'  # add the codesnippet button name
-        #     ]}
-        # ],
-
         'codeSnippet_theme': 'monokai',
-        # uncomment to restrict only those languages
-        # 'codeSnippet_languages': {
-        #     'python': 'Python',
-        # },
-        # 'toolbar': 'MyCustomToolbar',
         'extraPlugins': ','.join(
             [
                 # add the follow plugins
@@ -195,7 +182,23 @@ CKEDITOR_CONFIGS = {
                 # 'widget',
                 # 'dialog',
             ]),
-    }
+    },
+    'commment': {
+        'toolbar': 'Custom',
+        # 'skin': 'moono',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-',
+                'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['CodeSnippet'],
+        ],
+        'codeSnippet_theme': 'monokai',
+        'extraPlugins': ','.join(
+            [
+                # add the follow plugins
+                'codesnippet',
+            ]),
+    },
 }
 
 
