@@ -197,3 +197,6 @@ body {
     border-radius: 6px;
     text-align: center;
 }
+div > p > img {
+    width: 100% !important;
+}

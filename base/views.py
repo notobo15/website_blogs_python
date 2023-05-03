@@ -10,7 +10,7 @@ import re
 from datetime import datetime
 from .forms import CreateCommentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.http import HttpResponseRedirect
 
 def homepage(request):
     category = models.Category.objects.all()
@@ -43,6 +43,7 @@ def category(request, pk):
 
 
 def detail(request, pk,  detail):
+    context = {}
     posts = models.Article.objects.order_by('-created')[:7]
     if models.Article.objects.filter(slug=detail).exists():
         article = models.Article.objects.get(slug=detail)
@@ -97,7 +98,6 @@ def detail(request, pk,  detail):
 
     for com in allcomments:
         current_time = datetime.now()
-        # print(current_time)
         year = com.publish.year
         month = com.publish.month
         day = com.publish.day
@@ -113,9 +113,6 @@ def detail(request, pk,  detail):
         days = int(days)
         hours = int(hours)
         minutes = int(minutes)
-        # print("Số ngày: ", days)
-        # print("Số giờ: ", hours)
-        # print("Số phút: ", minutes)
         if hours == 0 and days == 0:
             str = f'{minutes} phút trước'
         elif days == 0:
@@ -125,9 +122,8 @@ def detail(request, pk,  detail):
         com.number_time = str
         print(com.number_time)    
     
-    context['comment_form'] = comment_form
+    # context['comment_form'] = comment_form
     return render(request, 'detail.html', context)
-
 
 @login_required(login_url='login')
 def createArticle(request):
@@ -169,6 +165,8 @@ def deleteArticle(request, id):
 
 
 def loginUser(request):
+    key = request.COOKIES.get('key')
+    print(key)
     if request.user.is_authenticated:
         return redirect('homepage')
 
@@ -193,6 +191,7 @@ def loginUser(request):
         except models.User.DoesNotExist:
             print("khong ton tai")
             messages.error(request, 'user does not exist')
+    
     return render(request, 'login.html', context)
 
 
@@ -200,12 +199,10 @@ def logoutUser(request):
     logout(request)
     return redirect('homepage')
 
-
 def registerUser(request):
     context = {}
     form = CreateUserForm()
     context['form'] = form
-    
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
@@ -250,7 +247,6 @@ def registerUser(request):
                 form.save()
                 login(request, form)
                 return redirect("homepage")
-
     else:
         pass
         # messages.error(request, 'Có lỗi trong quá trình đăng kí! Vui lòng thử lại sau.')
@@ -261,6 +257,8 @@ def like_article(request, pk, detail):
     print(request)
     user = request.user
     if request.method == "POST":
+        if request.user.is_anonymous:
+            return redirect("login")
         article_id = request.POST.get("article_id")
         article = models.Article.objects.get(id=article_id)
         print(article_id)
