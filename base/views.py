@@ -43,8 +43,8 @@ def category(request, pk):
 
 
 def detail(request, pk,  detail):
-    posts = models.Article.objects.order_by('-created')[:7]
     if models.Article.objects.filter(slug=detail).exists():
+        context = {}
         article = models.Article.objects.get(slug=detail)
         allcomments = models.Comment.objects.filter(article=article.id)
         context['allcomments'] = allcomments
@@ -93,7 +93,7 @@ def detail(request, pk,  detail):
             # context['comments'] = comments
             context['allcomments'] = allcomments
             context['comment_form'] = CreateCommentForm()
-            # return render(request, 'detail.html', context)
+            return render(request, 'detail.html', context)
 
     for com in allcomments:
         current_time = datetime.now()
