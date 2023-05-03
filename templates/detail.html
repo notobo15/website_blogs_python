@@ -29,6 +29,23 @@
     <p>{{article.content | safe }}</p>
   </div>
   <div class="container">
+
+
+ {% comment %} <form action="{% url 'like-article' %}" method="POST"> {% endcomment %}
+  <form action="like-article/" method="POST" >
+    {% csrf_token %}
+    <input type="hidden" name="article_id" value="{{article.id}}" />
+    {% if user not in article.liked.all %}
+    <button class="btn btn-primary" type="submit" onclick="return save()">Like</button>
+    {% else %}
+    <button class="btn btn-danger" type="submit" onclick="return save()">Dislike</button>
+
+    {% endif %}
+  </form>
+  <strong>{{article.liked.all.count}} likes</strong>
+
+
+
     <h4>{{ allcomments.count }} comments</h4>
     <form id="myForm" method="post">
       {% csrf_token %} {{ comment_form.as_p }} {{ comment_form.media }}
@@ -119,6 +136,11 @@
         $(this).addClass("active");
       }
     });
+  }
+  function save() {
+    console.log(1312312)
+    var value = "some_value";
+    document.cookie="key="+value;
   }
   active();
   function showReplyForm(id) {
