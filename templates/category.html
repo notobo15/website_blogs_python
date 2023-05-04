@@ -18,7 +18,7 @@
   
   <div class="row" style="gap: 1rem;">
     <div class="col-8" style="height: fit-content">
-        {% for item in article %}
+        {% for item in list %}
         <div class="post_container row p-3 h-100" style="box-shadow: 1px 4px 14px -1px rgba(122,122,122,0.75);">
           <div class="post_thumbnail col-6 col-md-4">
             <img width="100%" height="100%" src="{{item.img}}" alt="">
@@ -53,7 +53,48 @@
       {% endfor%}
     </div>
   </div>
-  
+  <div class="py-4">
+    <nav aria-label="Page navigation example">
+      {% if list.has_other_pages %}
+      <ul class="pagination">
+        {% if list.has_previous %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?page={{ list.previous_page_number }}"
+            >Previous</a
+          >
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">Previous</a>
+        </li>
+        {% endif %} {% for num in list.paginator.page_range %}
+         {% if list.number == l %}
+        <li class="page-item active">
+          <span class="page-link"
+            >{{ num }} <span class="sr-only" >(current)</span></span
+          >
+        </li>
+        {% else %}
+        <li class="page-item">
+             <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+        {% endif %} {% endfor %} {% if list.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ list.next_page_number }}"
+            >Next</a
+          >
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+      {% endif %}
+    </nav>
+  </div>
 </div>
 
 {% endblock %}

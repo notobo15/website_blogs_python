@@ -43,6 +43,17 @@ def category(request, pk):
     # print(article)
     context['article'] = article
     context['category'] = category
+
+    page = request.GET.get('page', 1)
+    context['page'] = page
+    paginator = Paginator(article, 4)
+    try:
+        list = paginator.page(page)
+    except PageNotAnInteger:
+        list = paginator.page(1)
+    except EmptyPage:
+        list = paginator.page(paginator.num_pages)
+    context['list'] = list
     return render(request, 'category.html', context)
 
 
@@ -292,7 +303,19 @@ def like_article(request, pk, detail):
 def search(request):
     context = {}
     q = request.GET.get("q") if request.GET.get("q") != None else ''
-    article = models.Article.objects.filter(Q(title__icontains=q) | Q(slug__icontains=q) | Q(desc__icontains=q))
-    context['article'] = article
+    article_list = models.Article.objects.filter(Q(title__icontains=q) | Q(slug__icontains=q) | Q(desc__icontains=q))
+    context['article_list'] = article_list
     context['q'] = q
+
+    page = request.GET.get('page', 1)
+    context['page'] = page
+    paginator = Paginator(article_list, 10)
+    try:
+        list = paginator.page(page)
+    except PageNotAnInteger:
+        list = paginator.page(1)
+    except EmptyPage:
+        list = paginator.page(paginator.num_pages)
+    context['list'] = list
+
     return render(request, "search.html", context)
