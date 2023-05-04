@@ -16,7 +16,20 @@
     height: 130px !important;
   }
 </style>
+<<<<<<< Updated upstream
 <div class="container row mx-auto d-flex" style="gap: 1rem;" >
+=======
+<div class="container">
+  <ul class="list-inline">
+    <li class="list-inline-item">
+      <a class="btn btn-primary" href="{% url 'update-article' article.id %}">Edit</a>
+    </li>
+    <li class="list-inline-item">
+      <a class="btn btn-primary" href="{% url 'delete-article' article.id %}">Delete</a>
+    </li>
+  </ul>
+  
+>>>>>>> Stashed changes
   <div class="p-5 col-8" style="box-shadow: 1px 4px 14px -1px rgba(122, 122, 122, 0.75)">
     <ul class="list-inline">
       <li class="list-inline-item">
@@ -69,6 +82,7 @@
     {% endif %}
   </form>
   <strong>{{article.liked.all.count}} likes</strong>
+  
 
 
 

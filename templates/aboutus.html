@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block header %}{% include 'header.html' %} {% endblock %}
+
+{% block content %}
+<style>
+        .wrapper {
+  text-align: center;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header{
+    height: 30rem;
+}
+
+.image img {
+    width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+
+
+</style>
+<body>
+    <div class="wrapper">
+        <header class="image">
+            <img src="/server/static/KS1724-Converted.jpg">
+        </header>
+        <div class="content">
+            <h1>ABOUT US</h1>
+        </div>
+        <div class="container">
+            <h2>Chúng tôi là một nhóm sinh viên đại học đang làm đồ án Python Django</h2>
+            <p class="container_content">
+                Chào mừng bạn đến với trang giới thiệu nhóm của chúng tôi! Chúng tôi là một nhóm gồm 3 sinh viên đại học đang học tại khoa Công nghệ Thông tin, và chúng tôi đang làm đồ án về Python Django.
+                <hr>
+Trong nhóm của chúng tôi, có:
+<br>
+[Tên sinh viên 1]: Là người đảm nhận vai trò chính của dự án và quản lý toàn bộ quá trình phát triển. Anh ấy có kinh nghiệm lập trình Python và Django, và đã từng làm việc trên một số dự án liên quan đến web trước đây.
+<br>
+[Tên sinh viên 2]: Là người đảm nhận vai trò phát triển giao diện người dùng cho dự án. Cô ấy có kinh nghiệm về thiết kế giao diện và biết sử dụng nhiều công cụ để phát triển giao diện cho các ứng dụng web.
+<br>
+[Tên sinh viên 3]: Là người đảm nhận vai trò phát triển cơ sở dữ liệu và các chức năng liên quan đến xử lý dữ liệu. Anh ấy có kiến thức về cơ sở dữ liệu và các công nghệ liên quan, và sử dụng các công cụ như MySQL, SQLite để phát triển cơ sở dữ liệu cho dự án.
+
+<hr>
+Chúng tôi quyết định chọn Python Django để phát triển dự án của mình vì nó là một framework web phổ biến, cung cấp nhiều tính năng mạnh mẽ để phát triển ứng dụng web nhanh chóng và hiệu quả. Chúng tôi đang tập trung phát triển một trang web thương mại điện tử đơn giản để bán các sản phẩm thủ công và trang trí nhà cửa.
+Chúng tôi tin rằng với sự cố gắng và nỗ lực của cả nhóm, dự án của chúng tôi sẽ được hoàn thành thành công và đáp ứng được yêu cầu của khách hàng. Nếu bạn có bất kỳ câu hỏi hoặc góp ý nào về dự án của chúng tôi, vui lòng liên hệ
+</div>
+</body>
+{% endblock %}
