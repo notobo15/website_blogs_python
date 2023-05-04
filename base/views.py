@@ -11,6 +11,7 @@ from datetime import datetime
 from .forms import CreateCommentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
+from django.db.models import Q
 
 def homepage(request):
     category = models.Category.objects.all()
@@ -286,3 +287,12 @@ def like_article(request, pk, detail):
         like.save()
         return redirect(f'../../../{pk}/{detail}')
         # return redirect(f'homepage')
+
+
+def search(request):
+    context = {}
+    q = request.GET.get("q") if request.GET.get("q") != None else ''
+    article = models.Article.objects.filter(Q(title__icontains=q) | Q(slug__icontains=q) | Q(desc__icontains=q))
+    context['article'] = article
+    context['q'] = q
+    return render(request, "search.html", context)

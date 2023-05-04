@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block header %}{% include 'header.html' %} {% endblock %}
+
+{% block content %}
+  <h1>Kết Quả Tìm Kiếm: {{q}}</h1>
+  <div class="row">
+    <div class="col-8">
+      {% for item in article %}
+        <div class="d-flex border justify-content-center align-items-center gap-2">
+          <div style="width: 40%">
+            <img src="{{item.img}}" width="100%" alt="{{item.title}}">
+          </div>
+          <div style="width: 60%">
+            <a href="/{{item.category_id.slug}}/{{item.slug}}">{{item.title}}</a>
+          <q style="overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;">{{item.desc}}</q>
+          </div>
+        </div>
+      
+      
+      {% endfor %}
+
+
+    </div>
+
+    <div class="col-4">ben trai</div>
+  </div>
+{% endblock %}
