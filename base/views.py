@@ -22,7 +22,9 @@ def homepage(request):
 
 def contact(request):
     return render(request, 'contact.html')
-
+ 
+def aboutus(request):
+    return render(request, 'aboutus.html')
 
 def category(request, pk):
     category = None

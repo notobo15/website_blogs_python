@@ -11,7 +11,7 @@
         <a class="nav-link" href="{% url 'homepage' %}">Trang Chủ</a>
       </div>
       <div class="nav-item">
-        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" href="{% url 'aboutus' %}">About</a>
       </div>
       {% if request.user.is_authenticated %}
       <div class="nav-item">
