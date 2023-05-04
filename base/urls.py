@@ -8,6 +8,7 @@ urlpatterns = [
     path("logout/", views.logoutUser, name="logout"),
     path("register/", views.registerUser, name="register"),
     path("contact/", views.contact, name="contact"),
+    path("aboutus/", views.aboutus, name="aboutus"),
     # path("like-article/", views.like_article, name='like-article'),
     path('create-article/', views.createArticle, name='create-article'),
     path('update-article/<str:id>/', views.updateArticle, name='update-article'),

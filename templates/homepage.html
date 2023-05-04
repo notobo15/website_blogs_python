@@ -22,7 +22,6 @@
   <div class="row d-flex" style="gap: 1rem;">
     <div class="col-8" style="height: fit-content">
       {% for post in posts %}
-<<<<<<< Updated upstream
       <div class="post_container row p-3 h-100" style="box-shadow: 1px 4px 14px -1px rgba(122,122,122,0.75);">
         <div class="post_thumbnail col-6 col-md-4">
           <img width="100%" height="100%" src="{{post.img}}" alt="">
@@ -31,14 +30,6 @@
           <a href="{{post.category_id.slug}}/{{post.slug}}" class="post_title">{{post.title}}</a>
           <br>
           <small>{{post.desc}}</small>
-=======
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="{{post.img}}" alt="Card image cap">
-        <div class="card-body bg-white">
-          <a href="{{post.slug}}" class="card-title">{{post.title}}</a>
-          <p class="card-text" style="height: 4rem; overflow-y: hidden;">{{post.desc}}</p>
-          {% comment %} <a href="#" class="btn btn-primary">Go somewhere</a> {% endcomment %}
->>>>>>> Stashed changes
         </div>
       </div>
       <br>
