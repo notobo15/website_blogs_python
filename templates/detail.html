@@ -1,6 +1,8 @@
 {% extends 'base.html' %} {% block header %}{% include 'header.html' %}
 {% load static %} 
 {%endblock %} {% load mptt_tags %} {% block content %}
+<br>
+<br>
 <style>
   .django-ckeditor-widget {
     display: block !important;
@@ -14,23 +16,47 @@
     height: 130px !important;
   }
 </style>
-<div class="container">
-  <ul class="list-inline">
-    <li class="list-inline-item">
-      <a class="btn btn-primary" href="{% url 'update-article' article.id %}">Edit</a>
-    </li>
-    <li class="list-inline-item">
-      <a class="btn btn-primary" href="{% url 'delete-article' article.id %}">Delete</a>
-    </li>
-  </ul>
+<div class="container row mx-auto d-flex" style="gap: 1rem;" >
   <div class="p-5 col-8" style="box-shadow: 1px 4px 14px -1px rgba(122, 122, 122, 0.75)">
+    <ul class="list-inline">
+      <li class="list-inline-item">
+        <a class="btn btn-primary" href="{% url 'update-article' article.id %}">Edit</a>
+      </li>
+      <li class="list-inline-item">
+        <a class="btn btn-primary" href="{% url 'delete-article' article.id %}">Delete</a>
+      </li>
+    </ul>
     <h1>{{article.title}}</h1>
     <h5>{{article.desc}}</h5>
     <p>{{article.content | safe }}</p>
   </div>
-  <div class="container">
+
+  <div class="card bg-light mb-4" style="max-width: 18rem;" >
+    <div class="card-header">Bài viết hot</div>
+    {% for post in posts %}
+    <div>
+      <div class="content row p-2">
+        <div class="card_thumbnail col-4 mx-auto p-2">
+          <img class="" src="{{post.img}}" alt="" width="100%" >
+        </div>
+        <div class="card_info col-7 p-6 mx-auto">
+          <small class="fs-6" style="overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;"><a href="/{{post.category_id.slug}}/{{post.slug}}" class="post_title">{{post.title}}</a></small>
+          <small>{{post.created}}</small>
+        </div>
+      </div>
+    </div>
+    <br>
+    {% endfor%}
+  </div>
 
 
+</div>
+<br>
+<br>
+<div class="container">
  {% comment %} <form action="{% url 'like-article' %}" method="POST"> {% endcomment %}
   <form action="like-article/" method="POST" >
     {% csrf_token %}
@@ -88,6 +114,8 @@
   <div class="children pl-5">{{children }}</div>
   {% endif %} {% endrecursetree %}
 </div>
+<br>
+<br>
 {% comment %}
 <div class="py-4">
   <nav aria-label="Page navigation example">

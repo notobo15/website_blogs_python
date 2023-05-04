@@ -16,7 +16,8 @@ from django.db.models import Q
 def homepage(request):
     category = models.Category.objects.all()
     posts = models.Article.objects.all()
-    context = {"category" : category, "posts" : posts}
+    most_liked_posts = models.Article.objects.order_by('-liked')
+    context = {"category" : category, "posts" : posts, "most_liked_posts" : most_liked_posts}
     return render(request, 'homepage.html', context)
 
 def contact(request):
@@ -45,12 +46,14 @@ def category(request, pk):
 
 def detail(request, pk,  detail):
     context = {}
-    posts = models.Article.objects.order_by('-created')[:7]
     if models.Article.objects.filter(slug=detail).exists():
+        context = {}
         article = models.Article.objects.get(slug=detail)
+        posts = models.Article.objects.order_by('-liked')[:30]
         allcomments = models.Comment.objects.filter(article=article.id)
         context['allcomments'] = allcomments
         context['article'] = article
+        context['posts'] = posts
         # context['user'] = request.user
         print(allcomments)
         context['comment_form'] = CreateCommentForm()
@@ -95,7 +98,7 @@ def detail(request, pk,  detail):
             # context['comments'] = comments
             context['allcomments'] = allcomments
             context['comment_form'] = CreateCommentForm()
-            # return render(request, 'detail.html', context)
+            return render(request, 'detail.html', context)
 
     for com in allcomments:
         current_time = datetime.now()
