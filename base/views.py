@@ -17,7 +17,10 @@ def homepage(request):
     category = models.Category.objects.all()
     posts = models.Article.objects.all()
     most_liked_posts = models.Article.objects.order_by('-liked')
-    context = {"category" : category, "posts" : posts, "most_liked_posts" : most_liked_posts}
+    post_news = models.Article.objects.order_by('-created')[:1]
+    print(post_news[0].title)
+    context = {"post_news": post_news,"category" : category, "posts" : posts, "most_liked_posts" : most_liked_posts}
+
     return render(request, 'homepage.html', context)
 
 def contact(request):
@@ -54,11 +57,14 @@ def category(request, pk):
     except EmptyPage:
         list = paginator.page(paginator.num_pages)
     context['list'] = list
+    context['category'] = models.Category.objects.all()
     return render(request, 'category.html', context)
 
 
 def detail(request, pk,  detail):
     context = {}
+    
+
     if models.Article.objects.filter(slug=detail).exists():
         context = {}
         article = models.Article.objects.get(slug=detail)
@@ -111,6 +117,7 @@ def detail(request, pk,  detail):
             # context['comments'] = comments
             context['allcomments'] = allcomments
             context['comment_form'] = CreateCommentForm()
+            
             return render(request, 'detail.html', context)
 
     for com in allcomments:
@@ -140,6 +147,8 @@ def detail(request, pk,  detail):
         print(com.number_time)    
     
     # context['comment_form'] = comment_form
+    context['category'] = models.Category.objects.all()
+    print(context['category'] )
     return render(request, 'detail.html', context)
 
 @login_required(login_url='login')

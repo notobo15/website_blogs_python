@@ -42,6 +42,13 @@
       </li>
 
     </ul>
-
+    
   </div>
 </nav>
+
+<div class="d-flex justify-content-center align-items-center bg-warning p-2 ">
+    {%for item in category %}
+      <a class="social-icon text-xs-center badge badge-primary p-3 mx-3" href="{% url 'category' item.slug  %}">{{item.name}}</a>
+    {% endfor %}
+  </ul>
+</div>
