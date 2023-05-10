@@ -64,12 +64,12 @@ def category(request, pk):
 
 def detail(request, pk,  detail):
     context = {}
-    
-
     if models.Article.objects.filter(slug=detail).exists():
         context = {}
         article = models.Article.objects.get(slug=detail)
-        posts = models.Article.objects.order_by('-liked')[:6]
+        article.totalViews +=1
+        article.save()
+        posts = models.Article.objects.order_by('-totalViews')[:8]
         allcomments = models.Comment.objects.filter(article=article.id)
         print(allcomments)
         context['allcomments'] = allcomments
@@ -97,6 +97,9 @@ def detail(request, pk,  detail):
         # except EmptyPage:
         #     comments = paginator.page(paginator.num_pages)
         # context['comments'] = comments
+
+    
+
     if request.method == 'POST':
         if request.user.is_anonymous:
             return redirect("login")
