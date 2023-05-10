@@ -1,8 +1,8 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="container">
-  <div class="jumbotron my-4" style=" border-left: 15px solid #007bff">
-    <blockquote class="blockquote text-justify">
+  <div class="jumbotron my-4 p-4" style=" border-left: 15px solid #007bff">
+    <blockquote class="blockquote mb-0 text-justify">
       <p>
         Chào mừng đến với trang blog lập trình của chúng tôi! Chúng tôi cung cấp
         những kiến thức bổ ích về lập trình, bao gồm các hướng dẫn, bài viết và
@@ -11,9 +11,9 @@
         tôi để trau dồi kiến thức và có một hành trình học tập thú vị và bổ ích!
       </p>
     </blockquote>
-    {% comment %} <figcaption class="blockquote-footer">
-      <cite title="Source Title">Anonimous</cite>
-    </figcaption> {% endcomment %}
+  <figcaption class="blockquote-footer">
+      Nhóm tác giả : <cite title="Source Title">Sinh Viên SGU</cite>
+    </figcaption>
   </div>
 
   {% comment %}
@@ -36,7 +36,7 @@
     <div class="col-sm-12 col-md-12 col-lg-7  ">
       {% for item in post_news %}
       <div
-        class="post_thumbnail p-4 mb-4"
+        class="post_thumbnail p-4 mb-4 rounded"
         style="box-shadow: 1px 4px 14px -1px rgba(122, 122, 122, 0.75)"
       >
         <img width="100%" src="{{item.img}}" alt="" />
@@ -50,7 +50,7 @@
       {% endfor %} 
       {% for post in posts %}
       <div
-        class="post_container p-3 row mx-0"
+        class="post_container p-3 row mx-0 rounded"
         style="box-shadow: 1px 4px 14px -1px rgba(122, 122, 122, 0.75)"
       >
         <div class="post_thumbnail col-6 col-md-4">
