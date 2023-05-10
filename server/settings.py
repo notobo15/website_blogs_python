@@ -198,8 +198,6 @@ CKEDITOR_CONFIGS = {
             [
                 # add the follow plugins
                 'codesnippet',
-                "emoji"
-
             ]),
     },
 }
