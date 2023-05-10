@@ -3,6 +3,7 @@
 }
 a {
   text-decoration: none;
+  /* text-transform: capitalize !important; */
 }
 a:hover {
   text-decoration: none;

@@ -22,65 +22,72 @@
   }
   
   
-</style>
-<div class="container row mx-auto d-flex"  style=" gap: 3rem;">
-  <div class="p-5 col-8" style="box-shadow: 1px 4px 14px -1px rgba(122, 122, 122, 0.75)">
-    <ul class="list-inline">
-      <li class="list-inline-item">
-        <a class="btn btn-primary" href="{% url 'update-article' article.id %}">Edit</a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn btn-primary" href="{% url 'delete-article' article.id %}">Delete</a>
-      </li>
-    </ul>
-    <h1>{{article.title}}</h1>
-    <h5>{{article.desc}}</h5>
-    <p>{{article.content | safe }}</p>
-  </div>
-
-  <div class="card bg-light mb-4 col-4" style="max-width: 18rem;" >
-    <div class="card-header">Bài viết hot</div>
-    {% for post in posts %}
-    <div>
-      <div class="content row p-2">
-        <div class="card_thumbnail col-4 mx-auto p-2">
-          <img class="" src="{{post.img}}" alt="" width="100%" >
-        </div>
-        <div class="card_info col-7 p-6 mx-auto">
-          <small class="fs-6 card_desc"><a href="/{{post.category_id.slug}}/{{post.slug}}" class="post_title">{{post.title}}</a></small>
-          <small>{{post.created}}</small>
+</style>  
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-7 col-lg-7 border rounded" style="box-shadow: 1px 4px 14px -1px rgba(122, 122, 122, 0.75)">
+      {% if  user.is_superuser %}
+      <ul class="list-inline">
+        <li class="list-inline-item">
+          <a class="btn btn-outline-warning" href="{% url 'update-article' article.id %}">Edit</a>
+        </li>
+        <li class="list-inline-item">
+          <a class="btn btn-outline-danger" href="{% url 'delete-article' article.id %}">Delete</a>
+        </li>
+      </ul>
+      {% endif %}
+      <h1 class="text-center py-4">{{article.title}}</h1>
+      <p><i>{{article.desc}}</i></p>
+      <div>{{article.content | safe }}</div>
+    </div>
+    <div class="col-0 col-md-1 col-lg-1"></div>
+    <div class=" mb-4 col-12 col-md-4 col-lg-4" style="padding-left: 0;padding-right: 0">
+      <div class="bg-light border rounded">
+        <div class="card-header text-center" style="font-size: 20px">Bài Viết Nhiều Like</div>
+      {% for post in posts %}
+      <div>
+        <div class="content row p-2">
+          <div class="card_thumbnail col-4 mx-auto p-2">
+            <img class="" src="{{post.img}}" alt="" width="100%" >
+          </div>
+          <div class="card_info col-7 p-6 mx-auto">
+            <small class="fs-6 card_desc"><a href="/{{post.category_id.slug}}/{{post.slug}}" class="post_title">{{post.title}}</a></small>
+            <small>{{post.created}}</small>
+          </div>
         </div>
       </div>
+      {% endfor%}
+      </div>
     </div>
-    <br>
-    {% endfor%}
+  
+  
   </div>
-
-
 </div>
 <br>
 <br>
 <div class="container">
  {% comment %} <form action="{% url 'like-article' %}" method="POST"> {% endcomment %}
-  <form action="like-article/" method="POST" >
-    {% csrf_token %}
-    <input type="hidden" name="article_id" value="{{article.id}}" />
-    {% if user not in article.liked.all %}
-    <button class="btn btn-primary" type="submit" onclick="return save()">Like</button>
-    {% else %}
-    <button class="btn btn-danger" type="submit" onclick="return save()">Dislike</button>
-
-    {% endif %}
-  </form>
-  <strong>{{article.liked.all.count}} likes</strong>
+  <div class="d-flex justify-content-start align-items-center">
+    <form action="like-article/" method="POST" >
+      {% csrf_token %}
+      <input type="hidden" name="article_id" value="{{article.id}}" />
+      {% if user not in article.liked.all %}
+      <button class="btn btn-outline-primary rounded-circle" style="padding: 5px 10px;" type="submit"><i class="fa-solid fa-thumbs-up"></i></button>
+      {% else %}
+      <button class="btn btn-outline-danger rounded-circle" style="padding: 5px 10px;" type="submit"><i class="fa-solid fa-thumbs-up"></i></button>
+  
+      {% endif %}
+    </form>
+    <h4 class="ml-3 lh-lg mt-0" style="height: 20px;">{{article.liked.all.count}} likes</h4>
+  </div>
   
 
 
 
-    <h4>{{ allcomments.count }} comments</h4>
+    <h4 class="mt-3 "><i class="text-primary fs-3 mr-3 fa-solid fa-comment"></i>{{ allcomments.count }} comments</h4>
     <form id="myForm" method="post">
       {% csrf_token %} {{ comment_form.as_p }} {{ comment_form.media }}
-      <div class="text-right">
+      <div class="text-right mb-3">
         <button type="submit" class="btn btn-primary">Bình Luận</button>
       </div>
     </form>
@@ -135,11 +142,7 @@
       }
     });
   }
-  function save() {
-    console.log(1312312)
-    var value = "some_value";
-    document.cookie="key="+value;
-  }
+
   active();
   function showReplyForm(id) {
     if (document.contains(document.getElementById("newForm"))) {

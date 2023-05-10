@@ -1,64 +1,97 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
-<br>
-<br>
 <div class="container">
-  <div class="jumbotron">
-    <h1>Blog Lập Trình</h1>
-    
+  <div class="jumbotron my-4" style=" border-left: 15px solid #007bff">
+    <blockquote class="blockquote text-justify">
+      <p>
+        Chào mừng đến với trang blog lập trình của chúng tôi! Chúng tôi cung cấp
+        những kiến thức bổ ích về lập trình, bao gồm các hướng dẫn, bài viết và
+        tài liệu tham khảo về nhiều chủ đề khác nhau. Mục tiêu của chúng tôi là
+        giúp bạn phát triển kỹ năng lập trình của mình. Hãy tham gia cùng chúng
+        tôi để trau dồi kiến thức và có một hành trình học tập thú vị và bổ ích!
+      </p>
+    </blockquote>
+    {% comment %} <figcaption class="blockquote-footer">
+      <cite title="Source Title">Anonimous</cite>
+    </figcaption> {% endcomment %}
   </div>
 
-  {% comment %} <ul class="list-inline mt-5">
+  {% comment %}
+  <ul class="list-inline mt-5">
     {%for item in category %}
-      <li class="list-inline-item">
-        <h5>
-          <a class="social-icon text-xs-center badge badge-primary p-3" href="{% url 'category' item.slug  %}">{{item.name}}</a>
-        </h5>
-      </li>
+    <li class="list-inline-item">
+      <h5>
+        <a
+          class="social-icon text-xs-center badge badge-primary p-3"
+          href="{% url 'category' item.slug  %}"
+          >{{item.name}}</a
+        >
+      </h5>
+    </li>
     {% endfor %}
-  </ul> {% endcomment %}
+  </ul>
+  {% endcomment %}
 
-  <div class="row d-flex" style="gap: 1rem;">
-    <div class="col-8" style="height: fit-content">
-        {% for item in post_news  %}
-          <div class="post_thumbnail p-2 mb-4" style="box-shadow: 1px 4px 14px -1px rgba(122,122,122,0.75);">
-            <img width="100%" src="{{item.img}}" alt="">
-            <a class="fs-3 mt-3 text-center d-block" href="/{{item.category_id.slug}}/{{item.slug}}">{{item.title}}</a>
-            <p class="fs-4 mt-2">{{item.desc}}</p>
-          </div>
-        {% endfor %}
-
+  <div class="row" >
+    <div class="col-sm-12 col-md-12 col-lg-7  ">
+      {% for item in post_news %}
+      <div
+        class="post_thumbnail p-4 mb-4"
+        style="box-shadow: 1px 4px 14px -1px rgba(122, 122, 122, 0.75)"
+      >
+        <img width="100%" src="{{item.img}}" alt="" />
+        <a
+          class="fs-3 mt-3 text-center d-block"
+          href="/{{item.category_id.slug}}/{{item.slug}}"
+          >{{item.title}}</a
+        >
+        <p class="fs-4 mt-2">{{item.desc}}</p>
+      </div>
+      {% endfor %} 
       {% for post in posts %}
-      <div class="post_container p-3 row mx-0" style="box-shadow: 1px 4px 14px -1px rgba(122,122,122,0.75);">
+      <div
+        class="post_container p-3 row mx-0"
+        style="box-shadow: 1px 4px 14px -1px rgba(122, 122, 122, 0.75)"
+      >
         <div class="post_thumbnail col-6 col-md-4">
-          <img width="100%" src="{{post.img}}" alt="">
+          <img width="100%" src="{{post.img}}" alt="" />
         </div>
-        <div class="post_info col-12 col-md-8" >
-          <a href="{{post.category_id.slug}}/{{post.slug}}" class="post_title">{{post.title}}</a>
-          <br>
-          <small  class="card_desc">{{post.desc}}</small>
+        <div class="post_info col-12 col-md-8">
+          <a href="{{post.category_id.slug}}/{{post.slug}}" class="post_title"
+            >{{post.title}}</a
+          >
+          <br />
+          <small class="card_desc">{{post.desc}}</small>
         </div>
       </div>
-      <br>
+      <br />
       {% endfor%}
     </div>
-    <div class="card bg-light mb-4" style="max-width: 18rem;" >
+    <div class="col-0 col-lg-1"></div>
+    <div class="bg-white mb-4 col-sm-12 col-md-12 col-lg-4" >
+    <div class="bg-light border rounded">
       <div class="card-header">Bài viết mới nhất</div>
       {% for post in most_liked_posts %}
-      <div>
+      <div class="">
         <div class="content row p-2">
           <div class="card_thumbnail col-4 mx-auto p-2">
-            <img class="" src="{{post.img}}" alt="" width="100%" >
+            <img class="" src="{{post.img}}" alt="" width="100%" />
           </div>
           <div class="card_info col-7 p-6 mx-auto">
-            <small class="fs-6"><a href="{{post.category_id.slug}}/{{post.slug}}" class="post_title">{{post.title}}</a></small>
+            <small class="fs-6"
+              ><a
+                href="{{post.category_id.slug}}/{{post.slug}}"
+                class="post_title"
+                >{{post.title}}</a
+              ></small
+            >
+            <br/>
             <small>{{post.created}}</small>
           </div>
         </div>
       </div>
-      <br>
       {% endfor%}
+    </div>
     </div>
   </div>
 </div>

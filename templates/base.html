@@ -17,12 +17,10 @@
   <link rel="stylesheet" href="{%  static 'css/login_register.css' %}" />
   <link rel="stylesheet" href="{% static 'css/main.css' %}" />
   <link rel="stylesheet" href="{% static 'css/contact.css' %}" />
-  {% comment %}
   <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css" />
   <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css" />
   <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css" />
-  {% endcomment %}
   <link rel="stylesheet"
     href="{% static '/ckeditor/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai.css' %}" />
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
@@ -38,8 +36,9 @@
 
 <body>
   {% block header %}
-  {% include 'header.html' %} 
+  {% include 'header2.html' %} 
   {% endblock %} 
+
   {% block content %} 
 
   {% endblock %}

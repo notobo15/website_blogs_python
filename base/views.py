@@ -12,11 +12,12 @@ from .forms import CreateCommentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
 from django.db.models import Q
-
+import random
 def homepage(request):
     category = models.Category.objects.all()
     posts = models.Article.objects.all()
-    most_liked_posts = models.Article.objects.order_by('-liked')
+    posts = random.choices(posts, k=8)
+    most_liked_posts = models.Article.objects.order_by('-liked')[:6]
     post_news = models.Article.objects.order_by('-created')[:1]
     print(post_news[0].title)
     context = {"post_news": post_news,"category" : category, "posts" : posts, "most_liked_posts" : most_liked_posts}
@@ -30,13 +31,13 @@ def aboutus(request):
     return render(request, 'aboutus.html')
 
 def category(request, pk):
-    category = None
+    cate = None
     other_categories = models.Category.objects.all()
-    posts = models.Article.objects.order_by('-created')[:7]
+    posts = models.Article.objects.order_by('-created')[:6]
     article = None
     context = {"other_categories" : other_categories, "posts" : posts}
     if models.Category.objects.filter(slug=pk).exists():
-        category = models.Category.objects.get(slug=pk)
+        cate = models.Category.objects.get(slug=pk)
     id = 0
     for cate in models.Category.objects.filter(slug=pk):
         if cate.isCategory(pk):
@@ -45,11 +46,11 @@ def category(request, pk):
     article = models.Article.objects.filter(category_id=id)
     # print(article)
     context['article'] = article
-    context['category'] = category
+    context['cate'] = cate
 
     page = request.GET.get('page', 1)
     context['page'] = page
-    paginator = Paginator(article, 4)
+    paginator = Paginator(article, 5)
     try:
         list = paginator.page(page)
     except PageNotAnInteger:
@@ -68,8 +69,9 @@ def detail(request, pk,  detail):
     if models.Article.objects.filter(slug=detail).exists():
         context = {}
         article = models.Article.objects.get(slug=detail)
-        posts = models.Article.objects.order_by('-liked')[:30]
+        posts = models.Article.objects.order_by('-liked')[:6]
         allcomments = models.Comment.objects.filter(article=article.id)
+        print(allcomments)
         context['allcomments'] = allcomments
         context['article'] = article
         context['posts'] = posts
@@ -104,17 +106,32 @@ def detail(request, pk,  detail):
             user_comment.article = article
             user_comment.user = request.user
             user_comment.save()
-
             allcomments = models.Comment.objects.filter(article=article.id)
+            for com in allcomments:
+                current_time = datetime.now()
+                year = com.publish.year
+                month = com.publish.month
+                day = com.publish.day
+                hour = com.publish.hour
+                minute = com.publish.minute
+                second = com.publish.second
+                past_time = datetime(year, month, day, hour, minute, second)
+                # print("past time : ", past_time)
+                time_diff = current_time - past_time
+                days = time_diff.days
+                hours, remainder = divmod(time_diff.seconds, 3600)
+                minutes, seconds = divmod(remainder, 60)
+                days = int(days)
+                hours = int(hours)
+                minutes = int(minutes)
+                if hours == 0 and days == 0:
+                    str = f'{minutes} phút trước'
+                elif days == 0:
+                    str = f'{hours} giờ {minutes} phút trước'
+                else:
+                    str = f'{days} ngày {hours} giờ {minutes} phút trước'
+                com.number_time = str
 
-            # paginator = Paginator(allcomments, 10)
-            # try:
-            #     comments = paginator.page(page)
-            # except PageNotAnInteger:
-            #     comments = paginator.page(1)
-            # except EmptyPage:
-            #     comments = paginator.page(paginator.num_pages)
-            # context['comments'] = comments
             context['allcomments'] = allcomments
             context['comment_form'] = CreateCommentForm()
             
@@ -144,11 +161,9 @@ def detail(request, pk,  detail):
         else:
             str = f'{days} ngày {hours} giờ {minutes} phút trước'
         com.number_time = str
-        print(com.number_time)    
     
     # context['comment_form'] = comment_form
     context['category'] = models.Category.objects.all()
-    print(context['category'] )
     return render(request, 'detail.html', context)
 
 @login_required(login_url='login')

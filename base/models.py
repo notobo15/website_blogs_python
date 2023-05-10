@@ -107,6 +107,7 @@ class Comment(MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ['publish']
-
+    class Meta:
+        ordering = ['-created']
     def __str__(self):
         return f'{self.content}'

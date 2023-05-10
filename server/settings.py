@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'autopep8',
     'tinymce',
-    'mptt'
+    'mptt',
+    'fontawesomefree'
 
 ]
 
