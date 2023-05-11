@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1',]
 
 
 # Application definition
-    
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -137,12 +137,12 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/server/static/'
-
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 if DEBUG:
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'server/static')
-    ]
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, os.path.join('server','static')),
+    )
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'server/static')
 # Default primary key field type
