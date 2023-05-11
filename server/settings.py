@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -139,7 +140,8 @@ USE_TZ = False
 STATIC_URL = '/server/static/'
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
+import mimetypes
+mimetypes.add_type("text/javascript", ".js", True)
 if DEBUG:
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, os.path.join('server', 'static')),
@@ -149,6 +151,7 @@ else:
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, os.path.join('server', 'static')),
     )
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
