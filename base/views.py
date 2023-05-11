@@ -18,8 +18,8 @@ def homepage(request):
     posts = models.Article.objects.all()
     posts = random.choices(posts, k=8)
     most_liked_posts = models.Article.objects.order_by('-liked')[:6]
-    post_news = models.Article.objects.order_by('-created')[:1]
-    print(post_news[0].title)
+    # post_news = models.Article.objects.order_by('-created')[:1]
+    post_news = models.Article.objects.filter(id="50")[:1]
     context = {"post_news": post_news,"category" : category, "posts" : posts, "most_liked_posts" : most_liked_posts}
 
     return render(request, 'homepage.html', context)
@@ -210,7 +210,6 @@ def deleteArticle(request, id):
 
 def loginUser(request):
     key = request.COOKIES.get('key')
-    print(key)
     if request.user.is_authenticated:
         return redirect('homepage')
 
@@ -221,20 +220,20 @@ def loginUser(request):
 
         try:
             user = models.User.objects.get(username=username)
-            if user:
+            if user.is_active == False:
+                messages.error(request, "User này đã bị chặn.")
+            else:
                 auth = authenticate(
                     request,  username=username, password=password)
                 if auth is not None:
                     login(request, auth)
                     return redirect("homepage")
                 else:
-                    messages.error(request, "password is not mathed")
-            elif user.is_active == False:
-                messages.error(request, "user is blocked")
+                    messages.error(request, "Mật Khẩu không đúng. Vui lòng kiểm tra lại.")
+                
 
         except models.User.DoesNotExist:
-            print("khong ton tai")
-            messages.error(request, 'user does not exist')
+            messages.error(request, 'User không tồn tại trong hệ thống.')
     
     return render(request, 'login.html', context)
 
@@ -333,7 +332,8 @@ def search(request):
     article_list = models.Article.objects.filter(Q(title__icontains=q) | Q(slug__icontains=q) | Q(desc__icontains=q))
     context['article_list'] = article_list
     context['q'] = q
-
+    context['category'] = models.Category.objects.all()
+    print (context['category'])
     page = request.GET.get('page', 1)
     context['page'] = page
     paginator = Paginator(article_list, 10)

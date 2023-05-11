@@ -39,7 +39,7 @@
           {% if request.user.is_authenticated %}
           <a class="dropdown-item" href="{% url 'logout' %}">Đăng Xuất</a>
           {% if user.is_superuser %}
-          <a class="dropdown-item" href="{% url 'create-article' %}">Create Article</a>
+          <a class="dropdown-item" href="{% url 'create-article' %}">Tạo bài viết</a>
           {% endif %}
           {% else %}
           <a class="dropdown-item" href="{% url 'login' %}">Đăng Nhập</a>

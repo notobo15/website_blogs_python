@@ -1,14 +1,15 @@
 {% extends 'base.html' %} {% block header %} {% include 'header2.html' %}
 {%endblock %} {% block content %}
-<h1>Kết Quả Tìm Kiếm: {{q}} có {{article_list.count}}</h1>
+<div class="container">
+  <h4 class="my-4">Tìm Kiếm '{{q}}' Có {{article_list.count}} Kết Quả</h4>
 <div class="row">
-  <div class="col-8">
+  <div class="col-sm-12 col-lg-8">
     {% for item in list %}
-    <div class="d-flex border justify-content-center align-items-center gap-2">
+    <div class="d-flex border justify-content-center rounded border mb-4 py-2 px-4" style="box-shadow: 1px 4px 14px -1px rgba(122,122,122,0.75); min-hieght: 120px !important;">
       <div style="width: 40%">
         <img src="{{item.img}}" width="100%" alt="{{item.title}}" />
       </div>
-      <div style="width: 60%">
+      <div class="d-flex justify-content-start flex-column" style="width: 60%; margin-left: 20px">
         <a href="/{{item.category_id.slug}}/{{item.slug}}">{{item.title}}</a>
         <q
           style="
@@ -25,7 +26,7 @@
     {% endfor %}
   </div>
 
-  <div class="col-4">ben trai</div>
+  <div class="col-4"> </div>
 
   <div class="py-4">
     <nav aria-label="Page navigation example">
@@ -69,5 +70,6 @@
       {% endif %}
     </nav>
   </div>
+</div>
 </div>
 {% endblock %}
