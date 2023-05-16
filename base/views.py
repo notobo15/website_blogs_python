@@ -18,8 +18,8 @@ def homepage(request):
     posts = models.Article.objects.all()
     posts = random.choices(posts, k=8)
     most_liked_posts = models.Article.objects.order_by('-liked')[:6]
-    # post_news = models.Article.objects.order_by('-created')[:1]
-    post_news = models.Article.objects.filter(id="50")[:1]
+    post_news = models.Article.objects.order_by('-created')[:1]
+        
     context = {"post_news": post_news,"category" : category, "posts" : posts, "most_liked_posts" : most_liked_posts}
 
     return render(request, 'homepage.html', context)
